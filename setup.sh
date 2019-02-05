@@ -17,3 +17,10 @@ git config --global user.email $email
 
 echo Username set: `git config --global user.name`
 echo Email Set: `git config --global user.email`
+
+echo "I will set git to cache github password"
+echo "so pushes wont ask for password every time"
+echo "timeout will be 1 hour"
+git config --global credential.helper cache
+git config --global credential.helper 'cache --timeout=3600'
+
