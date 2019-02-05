@@ -14,5 +14,6 @@ fi
 
 git config --global user.name $username
 git config --global user.email $email
-git config --global user.name
-git config --global user.email
+
+echo Username set: `git config --global user.name`
+echo Email Set: `git config --global user.email`
