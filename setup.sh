@@ -12,5 +12,7 @@ if ! [ -x "$(command -v git)" ]; then
   exit 1
 fi
 
-
-
+git config --global user.name $username
+git config --global user.email $email
+git config --global user.name
+git config --global user.email
