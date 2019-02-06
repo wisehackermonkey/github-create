@@ -11,7 +11,6 @@
 # 20190206
 # github.com/wisehackermonkey
 
-
 require 'github_api'
 
 # helper module for no echoing password input
