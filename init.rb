@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 require 'github_api'
 
+require_relative 'lib/helper.rb'
+include Helper
+
 puts "Github project creator by Wisemonkey"
 puts "-" * 44
 puts
@@ -15,19 +18,20 @@ print "Github Username: "
 username = gets.chomp
 
 print "Github Password: "
-password = gets.chomp
+password = Helper::get_password
 
 
-# authenticate github api
-github = Github.new basic_auth: "#{username}:#{password}"
-
-# create repo given project name
-# docs for "create repo"
-# https://www.rubydoc.info/github/piotrmurach/github/master/Github/Client/Repos:create
-github.repos.create "name": "#{project_name}",
-                    "description": "#{description}"
 
 begin
+    # authenticate github api
+    github = Github.new basic_auth: "#{username}:#{password}"
+    
+    # create repo given project name
+    # docs for "create repo"
+    # https://www.rubydoc.info/github/piotrmurach/github/master/Github/Client/Repos:create
+    github.repos.create "name": "#{project_name}",
+                    "description": "#{description}"
+
     # check if repo was created
     repo_created = github.repos.find "#{username}", "#{project_name}"
     unless repo_created.success?
