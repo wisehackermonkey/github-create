@@ -1,1 +1,3 @@
-run.rb
+#!/usr/bin/env ruby
+
+puts
