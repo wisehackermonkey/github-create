@@ -1,21 +1,29 @@
 #!/usr/bin/env ruby
+require 'net/http'
+require 'uri'
+require 'json'
 
-# Set github username
-git config --global user.name "wisehackermonkey"
-git config --global user.email "oranbusiness@gmail.com"
-# set cache of github password. doesnt ask you every
-# time you push to github
-git config --global credential.helper cache
-# set default password timeout to 1 hour
-git config --global credential.helper 'cache --timeout=3600'
+GITHUB_API_URL = 'https://api.github.com/zen'
 
+uri = URI.parse(GITHUB_API_URL)
 
-git add .
-git commit -m "init"
-git remote add 
-git remote add origin https://www.github.com/wisehackermonkey/project-start.git
-git push --set-upstream origin master
+puts "Github project creator by Wisemonkey"
+puts "-" * 44
+puts
 
-# link to how to create new github repo from cmd
-# https://gist.github.com/alexpchin/dc91e723d4db5018fef8
-curl -u 'wisehackermonkey' https://api.github.com/user/repos -d '{"name":"project-start"}'
+# create raw http post header
+
+header = {'Content-Type': 'text/json'}
+user = {user: {
+        name: 'Bob',
+        email: 'bob@example.com'
+    }
+}
+
+# Create http objects
+http = Net::HTTP.new(uri.host,uri.port)
+request = Net::HTTP::Post.new(uri.request_uri, header)
+request.body = user.to_json
+
+response = http.request(request)
+puts response
