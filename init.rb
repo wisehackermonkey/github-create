@@ -1,29 +1,60 @@
 #!/usr/bin/env ruby
-require 'net/http'
-require 'uri'
-require 'json'
-
-GITHUB_API_URL = 'https://api.github.com/zen'
-
-uri = URI.parse(GITHUB_API_URL)
+require 'github_api'
 
 puts "Github project creator by Wisemonkey"
 puts "-" * 44
 puts
 
-# create raw http post header
+print "Project Name: "
+project_name = gets.chomp
 
-header = {'Content-Type': 'text/json'}
-user = {user: {
-        name: 'Bob',
-        email: 'bob@example.com'
-    }
-}
+print "Description: "
+description = gets.chomp
 
-# Create http objects
-http = Net::HTTP.new(uri.host,uri.port)
-request = Net::HTTP::Post.new(uri.request_uri, header)
-request.body = user.to_json
+print "Github Username: "
+username = gets.chomp
 
-response = http.request(request)
-puts response
+print "Github Password: "
+password = gets.chomp
+
+
+# authenticate github api
+github = Github.new basic_auth: "#{username}:#{password}"
+
+# create repo given project name
+# docs for "create repo"
+# https://www.rubydoc.info/github/piotrmurach/github/master/Github/Client/Repos:create
+github.repos.create "name": "#{project_name}",
+                    "description": "#{description}"
+
+begin
+    # check if repo was created
+    repo_created = github.repos.find "#{username}", "#{project_name}"
+    unless repo_created.success?
+        raise "repo not found or an error occured"
+    end
+    
+    puts "Successfully created Repo #{project_name}"
+    # puts "https://www.github.com/#{username}/#{project_name}"
+    
+rescue Github::Error::GithubError => e
+    # handle if repo was not found
+    if e.is_a? Github::Error::NotFound
+        puts "-" * 44
+        puts "Error: Created repository not found"
+        puts "-" * 44
+    end
+    
+    if e.is_a? Github::Error::Unauthorized
+        puts "-" * 44
+        puts "Error: username or password is incorrect"
+        puts "-" * 44
+    end
+    
+    puts
+    puts "Error message"
+    puts e.message
+    puts "-" * 44
+
+end
+
