@@ -43,7 +43,7 @@ curl -u ''$username'' https://api.github.com/user/repos -d '{"name":"'$project_n
 
 
 echo "Setting up and pushing repo"
-
+ 
 git init
 "$project_name By $username" > README.md
 git add .
