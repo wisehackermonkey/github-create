@@ -31,7 +31,7 @@ begin
   username = gets.chomp
 
   print "Github Password: "
-  password = Helper::get_password
+  password = Helper::hide_password
   puts
 
   begin
