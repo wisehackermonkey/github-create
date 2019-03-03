@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "github/create/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "github-create"
+  spec.name          = "ghcreate"
   spec.version       = Github::Create::VERSION
   spec.authors       = ["wisemonkey"]
   spec.email         = ["oranbusiness@gmail.com"]
@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
   spec.bindir        = "exe"
-  spec.executables   = ["github-create"]
+  spec.executables   = ["ghcreate"]
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 2.0"
